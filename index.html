@@ -1,469 +1,272 @@
-<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Untuk Imbi ❤️</title><!-- Tailwind --><script src="https://cdn.tailwindcss.com"></script><!-- Font --><link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"></head><body><!-- ===================================== --><!-- AUDIO --><!-- ===================================== --><audio id="bgMusic" loop>
-    <source src="assets/bgmusic.mp3" type="audio/mpeg">
-</audio><button id="muteBtn">
-    🔊
-</button><!-- ===================================== --><!-- FLOWER CONTAINER --><!-- ===================================== --><div id="flowerRain"></div><!-- ===================================== --><!-- LOADING SCREEN --><!-- ===================================== --><section id="loadingScene" class="scene active"><div class="loading-box">
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untuk Imbi ❤️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Mengunci total agar Foto 4 tidak bisa diinteraksi */
+        .disabled-memory {
+            opacity: 0.6 !important;
+            cursor: not-allowed !important;
+            pointer-events: none !important;
+        }
+        /* Kotak Modal Penyelamat buatan sendiri agar berada di lapisan paling depan */
+        #customModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 999999 !important; /* Angka super besar agar tidak tertutup apapun */
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .custom-modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            max-width: 450px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            animation: popUp 0.3s ease-out;
+        }
+        @keyframes popUp {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
 
-    <h1 class="loading-title">
-        Menyiapkan Kenangan
-    </h1>
+    <audio id="bgMusic" loop>
+        <source src="bgmusic.mp3" type="audio/mpeg">
+    </audio>
+    <button id="muteBtn">🔊</button>
 
-    <h2 class="loading-subtitle">
-        Dewa ❤️ Imbi
-    </h2>
+    <div id="flowerRain"></div>
 
-    <div class="loading-bar">
-
-        <div id="loadingProgress"></div>
-
-    </div>
-
-    <p id="loadingText">
-        0%
-    </p>
-
-</div>
-
-</section><!-- ===================================== --><!-- GIFT SCENE --><!-- ===================================== --><section id="giftScene" class="scene hidden"><div class="gift-wrapper">
-
-    <h1 class="gift-title">
-        Ada sesuatu untuk Imbi ❤️
-    </h1>
-
-    <p class="gift-subtitle">
-        Klik kadonya ya sayang
-    </p>
-
-    <div id="giftBox" class="gift-box">
-
-        🎁
-
-    </div>
-
-</div>
-
-</section><!-- ===================================== --><!-- PIN SCENE --><!-- ===================================== --><section id="pinScene" class="scene hidden"><div class="pin-container">
-
-    <h2 class="pin-title">
-        Hayo kodenya apa ya 🤭
-    </h2>
-
-    <input
-        id="pinInput"
-        type="password"
-        maxlength="6"
-        placeholder="______"
-        class="pin-input"
-    >
-
-    <button
-        id="checkPinBtn"
-        class="pink-btn">
-
-        Masuk
-
-    </button>
-
-    <p id="pinMessage"></p>
-
-</div>
-
-</section><!-- ===================================== --><!-- ORBIT SCENE --><!-- ===================================== --><section id="orbitScene" class="scene hidden"><div class="orbit-wrapper">
-
-    <p class="memory-label">
-        MEMORI DnA
-    </p>
-
-    <h1 class="memory-title">
-        Kenangan Dewa n Imbi
-    </h1>
-
-    <p class="memory-subtitle">
-        Pencet setiap kenangan nya satu persatu ya sayang ❤️
-    </p>
-
-    <div id="progressBox">
-
-        Kenangan Terbuka
-
-        <span id="progressText">
-            0 / 8
-        </span>
-
-    </div>
-
-    <p id="daysCounter">
-        Menghitung hari...
-    </p>
-
-    <!-- HEART CORE -->
-
-    <div id="heartCore">
-
-        <div class="heart-glow"></div>
-
-        <div class="heart-content">
-
-            <h2>❤️</h2>
-
-            <p>
-                Inti Hati
-            </p>
-
+    <section id="loadingScene" class="scene active">
+        <div class="loading-box">
+            <h1 class="loading-title">Menyiapkan Kenangan</h1>
+            <h2 class="loading-subtitle">Dewa ❤️ Imbi</h2>
+            <div class="loading-bar">
+                <div id="loadingProgress"></div>
+            </div>
+            <p id="loadingText">0%</p>
         </div>
+    </section>
+
+    <section id="giftScene" class="scene hidden">
+        <div class="gift-wrapper">
+            <h1 class="gift-title">Ada sesuatu untuk Imbi ❤️</h1>
+            <p class="gift-subtitle">Klik kadonya ya sayang</p>
+            <div id="giftBox" class="gift-box">🎁</div>
+        </div>
+    </section>
+
+    <section id="pinScene" class="scene hidden">
+        <div class="pin-container">
+            <h2 class="pin-title">Hayo kodenya apa ya 🤭</h2>
+            <input id="pinInput" type="text" maxlength="6" placeholder="______" class="pin-input">
+            <button id="checkPinBtn" class="pink-btn">Masuk</button>
+            <p id="pinMessage" style="color: #ff4d6d; margin-top: 10px; font-weight: bold;"></p>
+        </div>
+    </section>
+
+    <section id="orbitScene" class="scene hidden">
+        <div class="orbit-wrapper">
+            <p class="memory-label">MEMORI DnA</p>
+            <h1 class="memory-title">Kenangan Dewa n Imbi</h1>
+            <p class="memory-subtitle">Pencet setiap kenangan nya satu persatu ya sayang ❤️</p>
+            <div id="progressBox">
+                Kenangan Terbuka <span id="progressText">0 / 8</span>
+            </div>
+            <p id="daysCounter">Menghitung hari...</p>
+
+            <div id="heartCore" onclick="bukaKadoSpesial('letter')">
+                <div class="heart-glow"></div>
+                <div class="heart-content">
+                    <h2>❤️</h2>
+                    <p>Inti Hati</p>
+                </div>
+            </div>
+
+            <div class="orbit orbit1">
+                <button class="memory-item" onclick="bukaKadoSpesial('photo1')">📸 Foto 1</button>
+            </div>
+
+            <div class="orbit orbit2">
+                <button class="memory-item" onclick="bukaKadoSpesial('photo2')">📸 Foto 2</button>
+            </div>
+
+            <div class="orbit orbit3">
+                <button class="memory-item" onclick="bukaKadoSpesial('photo3')">📸 Foto 3</button>
+            </div>
+
+            <div class="orbit orbit4">
+                <button class="memory-item disabled-memory" disabled>🔒 Foto 4</button>
+            </div>
+
+            <div class="orbit orbit5">
+                <button class="memory-item" onclick="bukaKadoSpesial('photo5')">📸 Foto 5</button>
+            </div>
+
+            <div class="orbit orbit6">
+                <button class="memory-item" onclick="bukaKadoSpesial('letter')">💌 Surat</button>
+            </div>
+
+            <div class="orbit orbit7">
+                <button class="memory-item" onclick="bukaKadoSpesial('song')">🎵 Lagu Kita</button>
+            </div>
+
+            <div class="orbit orbit8">
+                <button class="memory-item" onclick="bukaKadoSpesial('favorite')">🌸 Favorit</button>
+            </div>
+        </div>
+    </section>
+
+    <div id="customModal">
+        <div class="custom-modal-content">
+            <button onclick="tutupKadoSpesial()" style="position: absolute; top: 10px; right: 15px; font-size: 24px; border: none; background: none; cursor: pointer; color: #ff4d6d; font-weight: bold;">✖</button>
+            <div id="customModalBody" style="margin-top: 15px;"></div>
+        </div>
+    </div>
+
+    <div id="modal" class="hidden"><div class="modal-content"><button id="closeModal" class="close-btn">✖</button><div id="modalBody"></div></div></div>
+
+    <section id="bouquetScene" class="scene hidden">
+        <div class="bouquet-container">
+            <div class="bouquet-flowers">🌷 🌸 🌹 🌸 🌷</div>
+            <h1 class="bouquet-title">Thank You For Staying</h1>
+            <p class="bouquet-subtitle">Terimakasih karena tetap ada sayang ❤️</p>
+            <button id="loveBtn" class="pink-btn">Aku Sayang Kamu ❤️</button>
+            <h2 id="foreverText" class="hidden">Forever Us ❤️</h2>
+        </div>
+    </section>
+
+    <section id="endingScene" class="scene hidden">
+        <div class="ending-wrapper">
+            <h1>22 • 05 • 26</h1>
+            <h2>Hari dimana semuanya dimulai</h2>
+            <h1>Dewa ❤️ Imbi</h1>
+            <h2>Forever Us</h2>
+        </div>
+    </section>
+
+    <div id="memoryTemplates" class="hidden">
+        
+        <template id="photo1">
+            <img src="foto1.jpg" style="width:100%; border-radius:15px; margin-bottom:12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            <p style="color:#4a4a4a; font-size:15px; line-height:1.5; font-family:'Quicksand', sans-serif;">aku suka banget deh kalo kamu meluk atau ngelakuin sesuatu ke bucket yang aku kasih ke kamu,wkwkwk aku ngerasa kaya aku yang dipeluk anjay</p>
+        </template>
+
+        <template id="photo2">
+            <img src="foto2.jpg" style="width:100%; border-radius:15px; margin-bottom:12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            <p style="color:#4a4a4a; font-size:15px; line-height:1.5; font-family:'Quicksand', sans-serif;">kaya udah lama aja yaa?perasaan baru kemaren yaa wkwkwk makasih yaa Udha ngasih aku bucket,aku bakal ngehargain dan simpen bunga pemberin kamu sayang💗🥰</p>
+        </template>
+
+        <template id="photo3">
+            <img src="foto3.jpg" style="width:100%; border-radius:15px; margin-bottom:12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            <p style="color:#4a4a4a; font-size:15px; line-height:1.5; font-family:'Quicksand', sans-serif;">inii Poto paling lucukk kamuu aku salting terus liatnyaa</p>
+        </template>
+
+        <template id="photo4">
+            <img src="foto4.jpg" style="width:100%; border-radius:15px; margin-bottom:12px;">
+            <p style="color:#4a4a4a;">kamu masih inget kann jadian kita??aku kangen deh pas aku nembak kamu lucu ajaa gitu aku ngingetnya apalagi kamu sampe nerima aku aku ganyangka kamu bisa Nerima aku sengg hwhe</p>
+        </template>
+
+        <template id="photo5">
+            <img src="foto5.jpg" style="width:100%; border-radius:15px; margin-bottom:12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            <p style="color:#4a4a4a; font-size:15px; line-height:1.5; font-family:'Quicksand', sans-serif;">Liatt seng anak anak kita nungguin lohh. Udah punya 5 anak ajaa yaa 🤣❤️</p>
+        </template>
+
+        <template id="letter">
+            <h2 style="font-family:'Pacifico', cursive; color:#ff4d6d; font-size:22px; margin-bottom:12px;">💌 Untuk Imbi Sayang</h2>
+            <div style="text-align: left; line-height: 1.6; color:#4a4a4a; font-size:15px; max-height:280px; overflow-y:auto; padding-right:8px; font-family:'Quicksand', sans-serif;">
+                happy graduation juga ya imbi sayang💗💗maap yak aku ngucapinnya sekarang tadi juga luntur ucapannya 😢😢aku engga nyangka kamu effort banget kalo sama aku seng Sukak dehh🤗🤗🤭💗😻🥰kamu juga ya semoga nanti disono temen temen aku asik asik kalau misalnya kamu di jakarta sehat sehat ya seng kalo di 14 juga sehat sehat PB juga sehat sehat pokonya sehat sehat deh wkwkwkwk jangan lupain aku ya seng jaga pola makan kamu jangan makan mie Mulu makan yang sehat sehat Ama jangan lupa beribadah seng dimanapun kita berada,aku juga pasti bakal kangen sama kamu seng setiap hari malah aku pikiran kamu mulu💗🤗, intinya makasih ya seng plis sama aku terus kecintaan nih wkwkwkwk😜
+            </div>
+        </template>
+
+        <template id="song">
+            <h2 style="color:#ff4d6d; font-size:18px; margin-bottom:10px; font-family:'Quicksand', sans-serif;">🎵 Akad - Payung Teduh</h2>
+            <p style="margin-bottom:15px; color:#4a4a4a; font-size:14px;">Ini lagu kebangsaan kitaa ya seng ❤️ Pas aku bawain lagu ini pasti keinget kamu muluu.</p>
+            <a href="https://open.spotify.com/embed/track/6g0GzGZ606mZ97WpXorDGl?utm_source=generator" target="_blank" style="background:#1DB954; color:white; padding:8px 20px; border-radius:20px; text-decoration:none; font-weight:bold; display:inline-block; font-size:14px;">Buka Spotify</a>
+        </template>
+
+        <template id="favorite">
+            <h2 style="color:#ff4d6d; font-size:18px; margin-bottom:10px; font-family:'Quicksand', sans-serif;">🌸 Hal Favorit</h2>
+            <p style="color:#4a4a4a; font-size:15px; font-family:'Quicksand', sans-serif;">Semua hal yang ada di diri kamu adalah favorit aku, seng! Selamanya ❤️</p>
+        </template>
 
     </div>
 
-    <!-- ORBIT 1 -->
-
-    <div class="orbit orbit1">
-
-        <button
-            class="memory-item"
-            data-target="photo1">
-
-            📸 Foto 1
-
-        </button>
-
-    </div>
-
-    <!-- ORBIT 2 -->
-
-    <div class="orbit orbit2">
-
-        <button
-            class="memory-item"
-            data-target="photo2">
-
-            📸 Foto 2
-
-        </button>
-
-    </div>
-
-    <!-- ORBIT 3 -->
-
-    <div class="orbit orbit3">
-
-        <button
-            class="memory-item"
-            data-target="photo3">
-
-            📸 Foto 3
-
-        </button>
-
-    </div>
-
-    <!-- ORBIT 4 -->
-
-    <div class="orbit orbit4">
-
-        <button
-            class="memory-item"
-            data-target="photo4">
-
-            📸 Foto 4
-
-        </button>
-
-    </div>
-
-    <!-- ORBIT 5 -->
-
-    <div class="orbit orbit5">
-
-        <button
-            class="memory-item"
-            data-target="photo5">
-
-            📸 Foto 5
-
-        </button>
-
-    </div>
-<!-- ORBIT 6 -->    <div class="orbit orbit6">
-
-        <button
-            class="memory-item"
-            data-target="letter">
-
-            💌 Surat
-
-        </button>
-
-    </div>
-
-    <!-- ORBIT 7 -->
-
-    <div class="orbit orbit7">
-
-        <button
-            class="memory-item"
-            data-target="song">
-
-            🎵 Lagu Kita
-
-        </button>
-
-    </div>
-
-    <!-- ORBIT 8 -->
-
-    <div class="orbit orbit8">
-
-        <button
-            class="memory-item"
-            data-target="favorite">
-
-            🌸 Favorit
-
-        </button>
-
-    </div>
-
-</div>
-
-</section><!-- ===================================== --><!-- MODAL --><!-- ===================================== --><div id="modal" class="hidden"><div class="modal-content">
-
-    <button id="closeModal" class="close-btn">
-        ✖
-    </button>
-
-    <div id="modalBody"></div>
-
-</div>
-
-</div><!-- ===================================== --><!-- BOUQUET SCENE --><!-- ===================================== --><section id="bouquetScene" class="scene hidden"><div class="bouquet-container">
-
-    <div class="bouquet-flowers">
-
-        🌷 🌸 🌹 🌸 🌷
-
-    </div>
-
-    <h1 class="bouquet-title">
-
-        Thank You For Staying
-
-    </h1>
-
-    <p class="bouquet-subtitle">
-
-        Terimakasih karena tetap ada sayang ❤️
-
-    </p>
-
-    <button
-        id="loveBtn"
-        class="pink-btn">
-
-        Aku Sayang Kamu ❤️
-
-    </button>
-
-    <h2
-        id="foreverText"
-        class="hidden">
-
-        Forever Us ❤️
-
-    </h2>
-
-</div>
-
-</section><!-- ===================================== --><!-- ENDING SCENE --><!-- ===================================== --><section
-    id="endingScene"
-    class="scene hidden"><div class="ending-wrapper">
-
-    <h1>
-        22 • 05 • 26
-    </h1>
-
-    <h2>
-        Hari dimana semuanya dimulai
-    </h2>
-
-    <h1>
-        Dewa ❤️ Imbi
-    </h1>
-
-    <h2>
-        Forever Us
-    </h2>
-
-</div>
-
-</section><!-- ===================================== --><!-- MEMORY TEMPLATES --><!-- ===================================== --><div id="memoryTemplates" class="hidden"><!-- FOTO 1 -->
-
-<template id="photo1">
-
-    <img
-        src="assets/foto1.jpg"
-        class="memory-photo">
-
-    <p>
-
-        Kalo kamu meluk atau ngelakuin sesuatu ke bunga
-        yang aku kasih aku ngerasa kaya aku yang dipeluk
-        deh wkwkwkwk.
-
-        Bunga kamu wangii bangett makasih yaa
-        udah ngasih aku segala hwhe.
-
-        Kamu effort bangett dehh aku sukakkk ❤️
-
-    </p>
-
-</template>
-
-<!-- FOTO 2 -->
-
-<template id="photo2">
-
-    <img
-        src="assets/foto2.jpg"
-        class="memory-photo">
-
-    <p>
-
-        Liat gaa yang kemarin kita fotbar?
-
-        Pertama kali loh itu kita wkwkwkwk.
-
-        Kenapa aku nembak nya pas akhir yaa wkwkwk.
-
-        Kangenn dehh ❤️
-
-    </p>
-
-</template>
-
-<!-- FOTO 3 -->
-
-<template id="photo3">
-
-    <img
-        src="assets/foto3.jpg"
-        class="memory-photo">
-
-    <p>
-
-        Ini foto kamu yang paling LUCUKKK
-        GEMESHH BANGETT.
-
-        Aku salting pas kamu kirim ke akuu.
-
-        Cantiknya full keliatann ❤️
-
-    </p>
-
-</template>
-
-<!-- FOTO 4 -->
-
-<template id="photo4">
-
-    <img
-        src="assets/foto4.jpg"
-        class="memory-photo">
-
-    <p>
-
-        Inget gaa kejadian aku nembak kamu?
-
-        Lucu deh kalo diinget.
-
-        Makasihh yakkk.
-
-        Semoga kita sama sama terus ❤️
-
-    </p>
-
-</template>
-
-<!-- FOTO 5 -->
-
-<template id="photo5">
-
-    <img
-        src="assets/foto5.jpg"
-        class="memory-photo">
-
-    <p>
-
-        Liatt seng anak anak kita nungguin lohh.
-
-        Udah punya 5 anak ajaa yaa 🤣❤️
-
-    </p>
-
-</template>
-
-<!-- SURAT -->
-
-<template id="letter">
-
-    <h2>
-        💌 Untuk Imbi Sayang
-    </h2>
-
-    <p>
-
-        Halo sayang.
-
-        Kamu jangan ngambek ya sama aku?
-
-        Wkwkwkwk capek tauu kalo kamu ngambek.
-
-        Ngambek nya jangan lama lama ya.
-
-        Maapin aku ya kadang kadang aku bikin
-        kamu cemburu dan ngambek mulu.
-
-        Aku pasti bakal kangen banget sama kamu.
-
-        Kamu juga disana sehat sehat yaa.
-
-        Jangan makan mie, seblak, ceker muluu.
-
-        Kalo sakit aku susah jenguknyaa wkwkwkwk.
-
-        See u yaa seng ❤️
-
-    </p>
-
-</template>
-
-<!-- LAGU -->
-
-<template id="song">
-
-    <h2>
-        🎵 Akad - Payung Teduh
-    </h2>
-
-    <p>
-
-        Ini lagu kebangsaan kitaa ya seng ❤️
-
-        Pas aku bawain lagu ini pasti
-        keinget kamu muluu.
-
-    </p>
-
-    <a
-        href="https://open.spotify.com/"
-        target="_blank"
-        class="spotify-btn">
-
-        Buka Spotify
-
-    </a>
-
-</template>
-
-</div><script src="script.js"></script></body>
+    <script>
+        // Fungsi Super Membuka Kotak Foto/Surat secara Mandiri (Kebal Eror script.js)
+        function bukaKadoSpesial(templateId) {
+            const template = document.getElementById(templateId);
+            const myModal = document.getElementById("customModal");
+            const myModalBody = document.getElementById("customModalBody");
+            
+            if (template && myModal && myModalBody) {
+                const clone = template.content.cloneNode(true);
+                myModalBody.innerHTML = "";
+                myModalBody.appendChild(clone);
+                
+                // Paksa rubah display css menjadi flex dan berada di z-index tertinggi
+                myModal.style.setProperty("display", "flex", "important");
+                
+                // Memicu pertambahan angka counter kenangan terbuka di layar secara manual
+                tambahAngkaProgressManual();
+            }
+        }
+
+        function tutupKadoSpesial() {
+            const myModal = document.getElementById("customModal");
+            if (myModal) {
+                myModal.style.setProperty("display", "none", "important");
+            }
+        }
+
+        // Fungsi manipulasi angka kenangan terbuka biar naik angkanya tiap pacarmu ngeklik foto
+        function tambahAngkaProgressManual() {
+            const progressTxt = document.getElementById("progressText");
+            if (progressTxt) {
+                let angkaSekarang = parseInt(progressTxt.innerText.split("/")[0].trim()) || 0;
+                if (angkaSekarang < 7) { 
+                    angkaSekarang++;
+                    progressTxt.innerText = angkaSekarang + " / 8";
+                }
+            }
+        }
+
+        // Logika Pengaman PIN Gerbang Utama (2205)
+        document.addEventListener("DOMContentLoaded", function() {
+            const checkBtn = document.getElementById("checkPinBtn");
+            const pinInput = document.getElementById("pinInput");
+            const pinMessage = document.getElementById("pinMessage");
+
+            if (checkBtn && pinInput) {
+                checkBtn.addEventListener("click", function(e) {
+                    const userPin = pinInput.value.trim();
+                    if (userPin !== "2205" && userPin !== "") {
+                        pinMessage.textContent = "Ups! Password-nya salah 🤭 Petunjuk: Tanggal jadian kita!";
+                        e.stopImmediatePropagation(); 
+                    } else if (userPin === "2205") {
+                        pinMessage.textContent = "";
+                    }
+                });
+            }
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
 </html>
